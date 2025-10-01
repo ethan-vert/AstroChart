@@ -2,6 +2,7 @@ import type { Settings } from './settings';
 import Radix from './radix';
 import type { AstroData } from './radix';
 import SVG from './svg';
+import { DocumentWrapper } from './svg-factory';
 /**
  * Displays astrology charts.
  *
@@ -19,7 +20,8 @@ declare class Chart {
     cy: number;
     radius: number;
     settings: Settings;
-    constructor(elementId: string, width: number, height: number, settings?: Partial<Settings>);
+    document: DocumentWrapper;
+    constructor(elementId: string, width: number, height: number, settings?: Partial<Settings>, doc?: DocumentWrapper);
     /**
    * Display radix horoscope
    *

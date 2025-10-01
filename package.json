@@ -1,13 +1,15 @@
 {
-  "name": "@astrodraw/astrochart",
-  "version": "3.0.2",
-  "description": "A free and open-source JavaScript library for generating SVG charts to display planets in astrology.",
+  "name": "@astrodraw/astrochart-rn",
+  "version": "3.0.2-rn.1",
+  "description": "A free and open-source JavaScript library for generating SVG charts to display planets in astrology. React Native compatible fork.",
   "keywords": [
     "astrology",
     "chart",
     "horoscope",
     "zodiac",
-    "ephemetis"
+    "ephemetis",
+    "react-native",
+    "svg"
   ],
   "license": "MIT",
   "repository": {

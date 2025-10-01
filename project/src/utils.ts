@@ -1,5 +1,6 @@
 import type { AstroData, LocatedPoint } from './radix'
 import type { Settings } from './settings'
+import { ElementWrapper, DocumentWrapper } from './svg-factory'
 
 /**
    * Calculate position of the point on the circle.
@@ -95,7 +96,9 @@ export const validate = (data: AstroData): { hasError: boolean; messages: string
    * @param{DOMElement} parent
    * @return {DOMElement}
    */
-export const getEmptyWrapper = (parent: Element, elementID: string, _paperElementId: string): Element => {
+export const getEmptyWrapper = (parent: ElementWrapper, elementID: string, _paperElementId: string, doc?: DocumentWrapper): ElementWrapper => {
+  const document = doc || (globalThis as any).document
+  
   const element = document.getElementById(elementID)
   if (element != null) {
     removeChilds(element)
@@ -116,15 +119,14 @@ export const getEmptyWrapper = (parent: Element, elementID: string, _paperElemen
   *
   * @param{DOMElement} parent
   */
-export const removeChilds = (parent: HTMLElement): void => {
+export const removeChilds = (parent: ElementWrapper): void => {
   if (parent == null) {
     return
   }
 
-  let last
-  while ((last = parent.lastChild) != null) {
-    parent.removeChild(last)
-  }
+  // ElementWrapper doesn't have lastChild, so we need to access the underlying element
+  const element = parent.getElement()
+  element.children = []
 }
 
 /**

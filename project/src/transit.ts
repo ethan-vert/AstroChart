@@ -28,7 +28,7 @@ class Transit {
   rulerRadius: number
   pointRadius: number
   shift: number
-  universe: Element
+  universe: import('./svg-factory').ElementWrapper
   context: this
   locatedPoints: LocatedPoint[]
   constructor(radix: Radix, data: AstroData, settings: Settings) {
@@ -51,7 +51,7 @@ class Transit {
 
     this.shift = radix.shift
 
-    this.universe = document.createElementNS(this.paper.root.namespaceURI, 'g')
+    this.universe = this.paper.document.createElementNS(this.paper.root.namespaceURI, 'g')
     this.universe.setAttribute('id', this.paper._paperElementId + '-' + this.settings.ID_TRANSIT)
     this.paper.root.appendChild(this.universe)
 
@@ -64,7 +64,7 @@ class Transit {
   drawBg(): void {
     const universe = this.universe
 
-    const wrapper = getEmptyWrapper(universe, this.paper._paperElementId + '-' + this.settings.ID_BG, this.paper._paperElementId)
+    const wrapper = getEmptyWrapper(universe, this.paper._paperElementId + '-' + this.settings.ID_BG, this.paper._paperElementId, this.paper.document)
 
     const LARGE_ARC_FLAG = 1
     const start = 0 // degree
@@ -86,7 +86,7 @@ class Transit {
     }
 
     const universe = this.universe
-    const wrapper = getEmptyWrapper(universe, this.paper._paperElementId + '-' + this.settings.ID_TRANSIT + '-' + this.settings.ID_POINTS, this.paper._paperElementId)
+    const wrapper = getEmptyWrapper(universe, this.paper._paperElementId + '-' + this.settings.ID_TRANSIT + '-' + this.settings.ID_POINTS, this.paper._paperElementId, this.paper.document)
 
     const gap = this.radius - (this.radius / this.settings.INNER_CIRCLE_RADIUS_RATIO + this.radius / this.settings.INDOOR_CIRCLE_RADIUS_RATIO)
     const step = (gap - 2 * (this.settings.PADDING * this.settings.SYMBOL_SCALE)) / Object.keys(planets).length
@@ -154,7 +154,7 @@ class Transit {
  */
   drawCircles(): void {
     const universe = this.universe
-    const wrapper = getEmptyWrapper(universe, this.paper._paperElementId + '-' + this.settings.ID_TRANSIT + '-' + this.settings.ID_CIRCLES, this.paper._paperElementId)
+    const wrapper = getEmptyWrapper(universe, this.paper._paperElementId + '-' + this.settings.ID_TRANSIT + '-' + this.settings.ID_CIRCLES, this.paper._paperElementId, this.paper.document)
     const radius = this.radius + this.radius / this.settings.INNER_CIRCLE_RADIUS_RATIO
 
     const circle = this.paper.circle(this.cx, this.cy, radius)
@@ -175,7 +175,7 @@ class Transit {
 
     let bottomPosition
     const universe = this.universe
-    const wrapper = getEmptyWrapper(universe, this.paper._paperElementId + '-' + this.settings.ID_TRANSIT + '-' + this.settings.ID_CUSPS, this.paper._paperElementId)
+    const wrapper = getEmptyWrapper(universe, this.paper._paperElementId + '-' + this.settings.ID_TRANSIT + '-' + this.settings.ID_CUSPS, this.paper._paperElementId, this.paper.document)
     const numbersRadius = this.radius + ((this.radius / this.settings.INNER_CIRCLE_RADIUS_RATIO - this.rulerRadius) / 2)
 
     const AS = 0
@@ -207,7 +207,7 @@ class Transit {
 
   drawRuler(): void {
     const universe = this.universe
-    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_TRANSIT + '-' + this.settings.ID_RULER, this.paper._paperElementId)
+    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_TRANSIT + '-' + this.settings.ID_RULER, this.paper._paperElementId, this.paper.document)
 
     const startRadius = (this.radius + (this.radius / this.settings.INNER_CIRCLE_RADIUS_RATIO))
     const rays = getRulerPositions(this.cx, this.cy, startRadius, startRadius - this.rulerRadius, this.shift, this.settings)
@@ -235,7 +235,7 @@ class Transit {
       : new AspectCalculator(this.toPoints, this.settings).transit(this.data.planets)
 
     const universe = this.universe
-    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_ASPECTS, this.paper._paperElementId)
+    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_ASPECTS, this.paper._paperElementId, this.paper.document)
 
     for (let i = 0, ln = aspectsList.length; i < ln; i++) {
       const startPoint = getPointPosition(this.cx, this.cy, this.radius / this.settings.INDOOR_CIRCLE_RADIUS_RATIO, aspectsList[i].toPoint.position + this.shift, this.settings)
@@ -274,7 +274,7 @@ class Transit {
     }
 
     // remove aspects
-    getEmptyWrapper(this.universe, this.paper._paperElementId + '-' + this.settings.ID_ASPECTS, this.paper._paperElementId)
+    getEmptyWrapper(this.universe, this.paper._paperElementId + '-' + this.settings.ID_ASPECTS, this.paper._paperElementId, this.paper.document)
 
     const animator = new Animator(this.context, this.settings)
     animator.animate(data, duration, isReverse, function () {

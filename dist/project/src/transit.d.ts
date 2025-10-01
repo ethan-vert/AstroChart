@@ -23,7 +23,7 @@ declare class Transit {
     rulerRadius: number;
     pointRadius: number;
     shift: number;
-    universe: Element;
+    universe: import('./svg-factory').ElementWrapper;
     context: this;
     locatedPoints: LocatedPoint[];
     constructor(radix: Radix, data: AstroData, settings: Settings);

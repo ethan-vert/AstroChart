@@ -46,7 +46,7 @@ class Radix {
   pointRadius: number
   toPoints: Points
   shift: number
-  universe: Element
+  universe: import('./svg-factory').ElementWrapper
   context: this
   constructor(paper: SVG, cx: number, cy: number, radius: number, data: AstroData, settings: Settings) {
     this.settings = settings
@@ -78,11 +78,11 @@ class Radix {
     }
 
     // preparing wrapper for aspects. It is the lowest layer
-    const divisionForAspects = document.createElementNS(this.paper.root.namespaceURI, 'g')
+    const divisionForAspects = this.paper.document.createElementNS(this.paper.root.namespaceURI, 'g')
     divisionForAspects.setAttribute('id', this.paper.root.id + '-' + this.settings.ID_ASPECTS)
     this.paper.root.appendChild(divisionForAspects)
 
-    this.universe = document.createElementNS(this.paper.root.namespaceURI, 'g')
+    this.universe = this.paper.document.createElementNS(this.paper.root.namespaceURI, 'g')
     this.universe.setAttribute('id', this.paper.root.id + '-' + this.settings.ID_RADIX)
     this.paper.root.appendChild(this.universe)
 
@@ -94,7 +94,7 @@ class Radix {
    */
   drawBg(): void {
     const universe = this.universe
-    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_BG, this.paper.root.id)
+    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_BG, this.paper.root.id, this.paper.document)
 
     const LARGE_ARC_FLAG = 1
     const start = 0 // degree
@@ -109,7 +109,7 @@ class Radix {
    */
   drawUniverse(): void {
     const universe = this.universe
-    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_RADIX + '-' + this.settings.ID_SIGNS, this.paper.root.id)
+    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_RADIX + '-' + this.settings.ID_SIGNS, this.paper.root.id, this.paper.document)
 
     // colors
     for (let i = 0, step = 30, start = this.shift, len = this.settings.COLORS_SIGNS.length; i < len; i++) {
@@ -140,7 +140,7 @@ class Radix {
     }
 
     const universe = this.universe
-    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_RADIX + '-' + this.settings.ID_POINTS, this.paper.root.id)
+    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_RADIX + '-' + this.settings.ID_POINTS, this.paper.root.id, this.paper.document)
 
     const gap = this.radius - (this.radius / this.settings.INNER_CIRCLE_RADIUS_RATIO + this.radius / this.settings.INDOOR_CIRCLE_RADIUS_RATIO)
     const step = (gap - 2 * (this.settings.PADDING * this.settings.SYMBOL_SCALE)) / Object.keys(this.data.planets).length
@@ -211,7 +211,7 @@ class Radix {
     }
 
     const universe = this.universe
-    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_RADIX + '-' + this.settings.ID_AXIS, this.paper.root.id)
+    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_RADIX + '-' + this.settings.ID_AXIS, this.paper.root.id, this.paper.document)
 
     const axisRadius = this.radius + ((this.radius / this.settings.INNER_CIRCLE_RADIUS_RATIO) / 4)
 
@@ -273,7 +273,7 @@ class Radix {
 
     let lines
     const universe = this.universe
-    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_RADIX + '-' + this.settings.ID_CUSPS, this.paper.root.id)
+    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_RADIX + '-' + this.settings.ID_CUSPS, this.paper.root.id, this.paper.document)
 
     const numbersRadius = this.radius / this.settings.INDOOR_CIRCLE_RADIUS_RATIO + (this.settings.COLLISION_RADIUS * this.settings.SYMBOL_SCALE)
 
@@ -330,7 +330,7 @@ class Radix {
       : new AspectCalculator(this.toPoints, this.settings).radix(this.data.planets)
 
     const universe = this.universe
-    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_ASPECTS, this.paper.root.id)
+    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_ASPECTS, this.paper.root.id, this.paper.document)
 
     const duplicateCheck: string[] = []
 
@@ -377,7 +377,7 @@ class Radix {
 
   drawRuler(): void {
     const universe = this.universe
-    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_RADIX + '-' + this.settings.ID_RULER, this.paper.root.id)
+    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_RADIX + '-' + this.settings.ID_RULER, this.paper.root.id, this.paper.document)
 
     const startRadius = (this.radius - (this.radius / this.settings.INNER_CIRCLE_RADIUS_RATIO + this.rulerRadius))
     const rays = getRulerPositions(this.cx, this.cy, startRadius, startRadius + this.rulerRadius, this.shift, this.settings)
@@ -400,7 +400,7 @@ class Radix {
    */
   drawCircles(): void {
     const universe = this.universe
-    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_RADIX + '-' + this.settings.ID_CIRCLES, this.paper.root.id)
+    const wrapper = getEmptyWrapper(universe, this.paper.root.id + '-' + this.settings.ID_RADIX + '-' + this.settings.ID_CIRCLES, this.paper.root.id, this.paper.document)
 
     // indoor circle
     let circle = this.paper.circle(this.cx, this.cy, this.radius / this.settings.INDOOR_CIRCLE_RADIUS_RATIO)
@@ -435,7 +435,7 @@ class Radix {
    */
   transit(data: AstroData): Transit {
     // remove axis (As, Ds, Mc, Ic) from radix
-    getEmptyWrapper(this.universe, this.paper.root.id + '-' + this.settings.ID_RADIX + '-' + this.settings.ID_AXIS, this.paper.root.id)
+    getEmptyWrapper(this.universe, this.paper.root.id + '-' + this.settings.ID_RADIX + '-' + this.settings.ID_AXIS, this.paper.root.id, this.paper.document)
     const transit = new Transit(this.context, data, this.settings)
     transit.drawBg()
     transit.drawPoints()

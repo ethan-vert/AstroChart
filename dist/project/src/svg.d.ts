@@ -1,24 +1,27 @@
 import type { Settings } from './settings';
+import { ElementWrapper, DocumentWrapper } from './svg-factory';
 /**
    * SVG tools.
    *
    * @class
    * @public
    * @constructor
-   * @param {String} elementId - root DOM Element
+   * @param {String} elementId - root DOM Element (can be empty string for headless mode)
    * @param {int} width
    * @param {int} height
+   * @param {DocumentWrapper} doc - optional document wrapper (for React Native compatibility)
    */
 declare class SVG {
     settings: Settings;
     _paperElementId: string;
-    DOMElement: SVGSVGElement;
-    root: Element;
+    DOMElement: ElementWrapper;
+    root: ElementWrapper;
     width: number;
     height: number;
     context: this;
-    constructor(elementId: string, width: number, height: number, settings: Settings);
-    _getSymbol(name: string, x: number, y: number): Element;
+    document: DocumentWrapper;
+    constructor(elementId: string, width: number, height: number, settings: Settings, doc?: DocumentWrapper);
+    _getSymbol(name: string, x: number, y: number): ElementWrapper;
     /**
      * Get a required symbol.
      *
@@ -28,7 +31,7 @@ declare class SVG {
      *
      * @return {SVGElement g}
      */
-    getSymbol(name: string, x: number, y: number): Element;
+    getSymbol(name: string, x: number, y: number): ElementWrapper;
     /**
      * Create transparent rectangle.
      *
@@ -39,7 +42,7 @@ declare class SVG {
      *
      * @return {Element} rect
      */
-    createRectForClick(x: number, y: number): Element;
+    createRectForClick(x: number, y: number): ElementWrapper;
     /**
      * Get ID for sign wrapper.
      *
@@ -56,61 +59,61 @@ declare class SVG {
      * @return {String id}
      */
     getHouseIdWrapper(house: string): string;
-    sun(x: number, y: number): Element;
-    moon(x: number, y: number): Element;
-    mercury(x: number, y: number): Element;
-    venus(x: number, y: number): Element;
-    mars(x: number, y: number): Element;
-    jupiter(x: number, y: number): Element;
-    saturn(x: number, y: number): Element;
-    uranus(x: number, y: number): Element;
-    neptune(x: number, y: number): Element;
-    pluto(x: number, y: number): Element;
-    chiron(x: number, y: number): Element;
-    lilith(x: number, y: number): Element;
-    nnode(x: number, y: number): Element;
-    snode(x: number, y: number): Element;
-    fortune(x: number, y: number): Element;
-    aries(x: number, y: number): Element;
-    taurus(x: number, y: number): Element;
-    gemini(x: number, y: number): Element;
-    cancer(x: number, y: number): Element;
-    leo(x: number, y: number): Element;
-    virgo(x: number, y: number): Element;
-    libra(x: number, y: number): Element;
-    scorpio(x: number, y: number): Element;
-    sagittarius(x: number, y: number): Element;
-    capricorn(x: number, y: number): Element;
-    aquarius(x: number, y: number): Element;
-    pisces(x: number, y: number): Element;
+    sun(x: number, y: number): ElementWrapper;
+    moon(x: number, y: number): ElementWrapper;
+    mercury(x: number, y: number): ElementWrapper;
+    venus(x: number, y: number): ElementWrapper;
+    mars(x: number, y: number): ElementWrapper;
+    jupiter(x: number, y: number): ElementWrapper;
+    saturn(x: number, y: number): ElementWrapper;
+    uranus(x: number, y: number): ElementWrapper;
+    neptune(x: number, y: number): ElementWrapper;
+    pluto(x: number, y: number): ElementWrapper;
+    chiron(x: number, y: number): ElementWrapper;
+    lilith(x: number, y: number): ElementWrapper;
+    nnode(x: number, y: number): ElementWrapper;
+    snode(x: number, y: number): ElementWrapper;
+    fortune(x: number, y: number): ElementWrapper;
+    aries(x: number, y: number): ElementWrapper;
+    taurus(x: number, y: number): ElementWrapper;
+    gemini(x: number, y: number): ElementWrapper;
+    cancer(x: number, y: number): ElementWrapper;
+    leo(x: number, y: number): ElementWrapper;
+    virgo(x: number, y: number): ElementWrapper;
+    libra(x: number, y: number): ElementWrapper;
+    scorpio(x: number, y: number): ElementWrapper;
+    sagittarius(x: number, y: number): ElementWrapper;
+    capricorn(x: number, y: number): ElementWrapper;
+    aquarius(x: number, y: number): ElementWrapper;
+    pisces(x: number, y: number): ElementWrapper;
     /**
    * Draw As symbol
    */
-    ascendant(x: number, y: number): Element;
+    ascendant(x: number, y: number): ElementWrapper;
     /**
    * Draw Ds symbol
    */
-    descendant(x: number, y: number): Element;
+    descendant(x: number, y: number): ElementWrapper;
     /**
    * Draw MC symbol
    */
-    mediumCoeli(x: number, y: number): Element;
+    mediumCoeli(x: number, y: number): ElementWrapper;
     /**
    * Draw IC symbol
    */
-    immumCoeli(x: number, y: number): Element;
-    number1(x: number, y: number): Element;
-    number2(x: number, y: number): Element;
-    number3(x: number, y: number): Element;
-    number4(x: number, y: number): Element;
-    number5(x: number, y: number): Element;
-    number6(x: number, y: number): Element;
-    number7(x: number, y: number): Element;
-    number8(x: number, y: number): Element;
-    number9(x: number, y: number): Element;
-    number10(x: number, y: number): Element;
-    number11(x: number, y: number): Element;
-    number12(x: number, y: number): Element;
+    immumCoeli(x: number, y: number): ElementWrapper;
+    number1(x: number, y: number): ElementWrapper;
+    number2(x: number, y: number): ElementWrapper;
+    number3(x: number, y: number): ElementWrapper;
+    number4(x: number, y: number): ElementWrapper;
+    number5(x: number, y: number): ElementWrapper;
+    number6(x: number, y: number): ElementWrapper;
+    number7(x: number, y: number): ElementWrapper;
+    number8(x: number, y: number): ElementWrapper;
+    number9(x: number, y: number): ElementWrapper;
+    number10(x: number, y: number): ElementWrapper;
+    number11(x: number, y: number): ElementWrapper;
+    number12(x: number, y: number): ElementWrapper;
     /**
    * Draw circular sector
    *
@@ -125,7 +128,7 @@ declare class SVG {
    *
    * @see SVG Path arc: https://www.w3.org/TR/SVG/paths.html#PathData
    */
-    segment(x: number, y: number, radius: number, a1: number, a2: number, thickness: number, lFlag?: number, sFlag?: number): Element;
+    segment(x: number, y: number, radius: number, a1: number, a2: number, thickness: number, lFlag?: number, sFlag?: number): ElementWrapper;
     /**
    * Draw line in circle
    *
@@ -137,7 +140,7 @@ declare class SVG {
    *
    * @return {SVGElement} line
    */
-    line(x1: number, y1: number, x2: number, y2: number): Element;
+    line(x1: number, y1: number, x2: number, y2: number): ElementWrapper;
     /**
    * Draw a circle
    *
@@ -147,7 +150,7 @@ declare class SVG {
    *
    * @return {SVGElement} circle
    */
-    circle(cx: number, cy: number, radius: number): Element;
+    circle(cx: number, cy: number, radius: number): ElementWrapper;
     /**
    * Draw a text
    *
@@ -159,6 +162,6 @@ declare class SVG {
    *
    * @return {SVGElement} text
    */
-    text(txt: string, x: number, y: number, size: string, color: string): Element;
+    text(txt: string, x: number, y: number, size: string, color: string): ElementWrapper;
 }
 export default SVG;

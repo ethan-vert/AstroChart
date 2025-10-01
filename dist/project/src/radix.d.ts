@@ -40,7 +40,7 @@ declare class Radix {
     pointRadius: number;
     toPoints: Points;
     shift: number;
-    universe: Element;
+    universe: import('./svg-factory').ElementWrapper;
     context: this;
     constructor(paper: SVG, cx: number, cy: number, radius: number, data: AstroData, settings: Settings);
     /**

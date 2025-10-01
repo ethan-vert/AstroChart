@@ -1,5 +1,6 @@
 import type { AstroData, LocatedPoint } from './radix';
 import type { Settings } from './settings';
+import { ElementWrapper, DocumentWrapper } from './svg-factory';
 /**
    * Calculate position of the point on the circle.
    *
@@ -56,13 +57,13 @@ export declare const validate: (data: AstroData) => {
    * @param{DOMElement} parent
    * @return {DOMElement}
    */
-export declare const getEmptyWrapper: (parent: Element, elementID: string, _paperElementId: string) => Element;
+export declare const getEmptyWrapper: (parent: ElementWrapper, elementID: string, _paperElementId: string, doc?: DocumentWrapper) => ElementWrapper;
 /**
   * Remove childs
   *
   * @param{DOMElement} parent
   */
-export declare const removeChilds: (parent: HTMLElement) => void;
+export declare const removeChilds: (parent: ElementWrapper) => void;
 /**
    * Check circle collision between two objects
    *
